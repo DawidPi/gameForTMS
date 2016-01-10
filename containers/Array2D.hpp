@@ -15,36 +15,46 @@ namespace Containers{
 		const Array1D<T, ySize>& operator[](size_t offset)const;
 		size_t width()const {return xSize;}
 		size_t height()const {return ySize;}
+		~Array2D();
 	private:
-
-		Array1D<T, ySize> m_container[xSize];
+		Allocator<Array1D<T, ySize>, xSize> m_spaceForT;
+		Array1D<T, ySize>(* m_tabT)[xSize];
 	};
 
 	template <typename T, size_t xSize, size_t ySize>
-	Array2D<T, xSize, ySize>::Array2D(const T& initialValues){
+	Array2D<T, xSize, ySize>::Array2D(const T& initialValues)
+		: m_tabT(static_cast<Array1D<T, ySize>(*)[xSize]>(m_spaceForT.getRawSpace()))
+	{
 		for(size_t currentX=0; currentX < xSize; ++currentX){
-			m_container[currentX] = Array1D<T, ySize>(initialValues);
+			new(m_tabT + currentX) Array1D<T, ySize>(initialValues);
+		}
+	}
+
+	template <typename T, size_t xSize, size_t ySize>
+	Array2D<T, xSize, ySize>::~Array2D(){
+		for(size_t currentX=0; currentX < xSize; ++currentX){
+			(*m_tabT)[currentX].~Array1D<T, ySize>();
 		}
 	}
 
 	template <typename T, size_t xSize, size_t ySize>
 	Array1D<T, ySize>& Array2D<T, xSize, ySize>::at(size_t offsetx){
-		return m_container[offsetx];
+		return (*m_tabT)[offsetx];
 	}
 
 	template <typename T, size_t xSize, size_t ySize>
 	const Array1D<T, ySize>& Array2D<T, xSize, ySize>::at(size_t offsetx) const{
-		return m_container[offsetx];
+		return (*m_tabT)[offsetx];
 	}
 
 	template <typename T, size_t xSize, size_t ySize>
 	Array1D<T, ySize>& Array2D<T, xSize, ySize>::operator [](size_t offset){
-		return m_container[offset];
+		return (*m_tabT)[offset];
 	}
 
 	template <typename T, size_t xSize, size_t ySize>
 	const Array1D<T, ySize>& Array2D<T, xSize, ySize>::operator [](size_t offset) const{
-		return m_container[offset];
+		return (*m_tabT)[offset];
 	}
 
 }

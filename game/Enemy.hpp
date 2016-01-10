@@ -15,7 +15,7 @@ namespace Game {
 
 class Enemy: public GameObject {
 public:
-	Enemy(GameObjectsManager& parent, Graphics::Point2D<size_t> startPoint = Graphics::Point2D<size_t>());
+	Enemy(GameObjectsManager* parent, Graphics::Point2D<size_t> startPoint = Graphics::Point2D<size_t>());
 	virtual void onCollision(const GameObject&);
 	virtual void onStepPassed();
 	virtual const Graphics::Drawable& graphics() const;

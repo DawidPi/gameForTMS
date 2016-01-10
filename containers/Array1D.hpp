@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <new>
 #include "Allocator.hpp"
+#include "is_pointer.hpp"
 
 namespace Containers{
 
@@ -20,18 +21,30 @@ namespace Containers{
 		size_t size(){return _size;}
 		~Array1D();
 	private:
-		Allocator<T, _size> spaceForT;
+		Allocator<T, _size> m_spaceForT;
+		template <typename U>
+		void destroy(U);
+		template <typename U>
+		void destroy(U*);
 		/* unrestricted unions only in C++11
 		union Data{
 		T rawContainer[_size];
 		} m_data; */
-
-		char m_rawMemory[sizeof(T) * _size];
-		T(& m_tabT)[_size];
+		T(* m_tabT)[_size];
 	};
 
 	template <typename T, size_t _size>
-	Array1D<T, _size>::Array1D(const T& initialValues): m_tabT(reinterpret_cast<T(&)[_size]>(spaceForT.getRawSpace())){
+	template <typename U>
+	void Array1D<T, _size>::destroy(U elementToDestroy){
+		elementToDestroy.~U();
+	}
+
+	template <typename T, size_t _size>
+	template <typename U>
+	void Array1D<T, _size>::destroy(U *){}
+
+	template <typename T, size_t _size>
+	Array1D<T, _size>::Array1D(const T& initialValues): m_tabT(static_cast<T(*)[_size]>(m_spaceForT.getRawSpace())){
 		for(size_t currentOffset=0; currentOffset < _size; ++currentOffset){
 			new(m_tabT + currentOffset) T(initialValues);
 		}
@@ -40,32 +53,32 @@ namespace Containers{
 	template <typename T, size_t _size>
 	Array1D<T, _size>::~Array1D(){
 		for(size_t currentOffset=0; currentOffset < _size; ++currentOffset){
-			m_tabT[currentOffset].~T();
+			destroy((*m_tabT)[currentOffset]);
 		}
 	}
 
 	template <typename T, size_t _size>
 	Array1D<T, _size>::Array1D(const Array1D& rhs) : m_tabT(rhs.m_tabT),
-		m_rawMemory(rhs.m_rawMemory){}
+		m_spaceForT(rhs.m_spaceForT){}
 
 	template <typename T, size_t _size>
 	T& Array1D<T, _size>::at(size_t offset){
-		return m_tabT[offset];
+		return (*m_tabT)[offset];
 	}
 
 	template <typename T, size_t _size>
 	const T& Array1D<T, _size>::at(size_t offset) const{
-		return m_tabT[offset];
+		return (*m_tabT)[offset];
 	}
 
 	template <typename T, size_t _size>
 	T& Array1D<T, _size>::operator[](size_t offset){
-		return m_tabT[offset];
+		return (*m_tabT)[offset];
 	}
 
 	template <typename T, size_t _size>
 	const T& Array1D<T, _size>::operator[](size_t offset) const {
-		return m_tabT[offset];
+		return (*m_tabT)[offset];
 	}
 }
 

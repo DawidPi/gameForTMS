@@ -9,6 +9,7 @@ namespace Containers{
 	public:
 		class BoolProxy;
 		Array1D(bool initialValues = false);
+		~Array1D(){}
 		BoolProxy at(size_t offset);
 		bool at(size_t offset) const;
 		BoolProxy operator[](size_t offset);

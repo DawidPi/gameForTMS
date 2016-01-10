@@ -3,8 +3,8 @@
 
 namespace Game {
 
-SpaceShip::SpaceShip(GameObjectsManager& parent) : GameObject(parent){
-	const size_t maxWidth = parent.display().width();
+SpaceShip::SpaceShip(GameObjectsManager* parent) : GameObject(parent){
+	const size_t maxWidth = parent->display().width();
 	position().setWidth(maxWidth/2 - graphics().width()/2);
 }
 

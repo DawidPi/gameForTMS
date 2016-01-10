@@ -9,9 +9,9 @@ namespace Game {
 void SpaceShooter::start(){
 
 	GameObjectsManager objectsManager(m_display);
-	Containers::Array2D<Enemy, 6, 2> enemies(objectsManager);
+	Containers::Array2D<Enemy, 6, 2> enemies(&objectsManager);
 	initEnemies(enemies, objectsManager);
-	SpaceShip spaceShip(objectsManager);
+	SpaceShip spaceShip(&objectsManager);
 
 	while(1){
 		m_display.clear();
@@ -39,7 +39,7 @@ void SpaceShooter::initEnemies(Containers::Array2D<Enemy,6, 2>& enemies,
 			size_t height = maxHeight - Graphics::Enemy().height()*currentHeight;
 			size_t width = currentWidth*Graphics::Enemy().width();
 			enemies[currentWidth][currentHeight] =
-					Enemy(manager, Graphics::Point2D<size_t>(width,height));
+					Enemy(&manager, Graphics::Point2D<size_t>(width,height));
 
 			manager.registerEnemy(&enemies[currentWidth][currentHeight]);
 		}

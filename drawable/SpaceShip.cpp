@@ -9,7 +9,7 @@
 
 namespace Graphics {
 
-SpaceShip::SpaceShip() : m_spaceShipGraphics(0) {
+SpaceShip::SpaceShip() : m_spaceShipGraphics(static_cast<bool>(0)) {
 	bool spaceShipTmp[15][15] = {
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},

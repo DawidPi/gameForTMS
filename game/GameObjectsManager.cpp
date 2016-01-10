@@ -7,7 +7,8 @@
 namespace Game {
 
 	GameObjectsManager::GameObjectsManager(Display& display) :
-		m_registeredShip(0), m_allObjects(0), m_bullets(0), m_enemies(0),
+		m_registeredShip(0), m_allObjects(0),
+		m_bullets(0), m_enemies(0),
 			m_display(display){
 	}
 
@@ -17,7 +18,7 @@ namespace Game {
 
 		for(size_t currentObjectIdx=0; currentObjectIdx < m_allObjects.size();
 				++currentObjectIdx){
-			if(m_allObjects[currentObjectIdx] == 0)
+			if(m_allObjects[currentObjectIdx] == static_cast<void*>(0))
 				continue;
 
 			m_allObjects[currentObjectIdx]->onStepPassed();

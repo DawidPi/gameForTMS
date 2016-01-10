@@ -3,7 +3,7 @@
 
 namespace Game {
 
-Enemy::Enemy(GameObjectsManager& parent, Graphics::Point2D<size_t> startPoint) :
+Enemy::Enemy(GameObjectsManager* parent, Graphics::Point2D<size_t> startPoint) :
 	GameObject(parent), m_moveDirection(RIGHT), m_movedSteps(0){
 	position().setHeight(startPoint.height());
 	position().setWidth(startPoint.width());
@@ -17,7 +17,7 @@ void Enemy::onCollision(const GameObject& ){
 	destroy();
 }
 
-void Enemy::onButtonPressed(size_t keyNumber){}
+void Enemy::onButtonPressed(size_t){}
 
 void Enemy::destroy(){
 	parent().deleteEnemy(this);

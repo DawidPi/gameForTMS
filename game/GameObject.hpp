@@ -9,7 +9,9 @@ namespace Game {
 class GameObjectsManager;
 class GameObject {
 public:
-	GameObject(GameObjectsManager& parent);
+	GameObject(GameObjectsManager* parent);
+	GameObject(const GameObject& rhs);
+	const GameObject& operator=(const GameObject& rhs);
 	virtual void onButtonPressed(size_t keyNumber)=0;
 	virtual void onCollision(const GameObject& collideObject)=0;
 	virtual void onStepPassed()=0;
@@ -23,7 +25,7 @@ public:
 
 	virtual ~GameObject(){};
 private:
-	GameObjectsManager& m_parent;
+	GameObjectsManager* m_parent;
 	Graphics::Point2D<size_t> m_position;
 };
 

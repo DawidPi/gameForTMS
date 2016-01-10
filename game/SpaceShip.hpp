@@ -11,10 +11,10 @@ namespace Game {
 
 class SpaceShip : public GameObject{
 public:
-	SpaceShip(GameObjectsManager& parent);
+	SpaceShip(GameObjectsManager* parent);
 	virtual void onButtonPressed(size_t keyNumber);
 	virtual void onCollision(const GameObject&);
-	virtual void onStepPassed();
+	virtual void onStepPassed(){};
 	virtual void destroy();
 	virtual const Graphics::Drawable& graphics() const;
 
