@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <cstddef>
 #include <new>
+#include "Allocator.hpp"
 
 namespace Containers{
 
@@ -19,6 +20,7 @@ namespace Containers{
 		size_t size(){return _size;}
 		~Array1D();
 	private:
+		Allocator<T, _size> spaceForT;
 		/* unrestricted unions only in C++11
 		union Data{
 		T rawContainer[_size];
@@ -26,11 +28,10 @@ namespace Containers{
 
 		char m_rawMemory[sizeof(T) * _size];
 		T(& m_tabT)[_size];
-
 	};
 
 	template <typename T, size_t _size>
-	Array1D<T, _size>::Array1D(const T& initialValues): m_tabT(reinterpret_cast<T(&)[_size]>(m_rawMemory)){
+	Array1D<T, _size>::Array1D(const T& initialValues): m_tabT(reinterpret_cast<T(&)[_size]>(spaceForT.getRawSpace())){
 		for(size_t currentOffset=0; currentOffset < _size; ++currentOffset){
 			new(m_tabT + currentOffset) T(initialValues);
 		}
