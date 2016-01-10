@@ -26,3 +26,6 @@
 *.exe
 *.out
 *.app
+
+libTMSLAB_DISC_LIB.a
+dll.def
