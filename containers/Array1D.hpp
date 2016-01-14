@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <new>
 #include "Allocator.hpp"
-#include "is_pointer.hpp"
 
 namespace Containers{
 
