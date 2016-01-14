@@ -5,7 +5,12 @@
 /////     Instytut Automatyki      ////
 /////     Politechnika £ódzka      ////
 ///////////////////////////////////////,
+
+#ifndef RADZIECKI_LCD
+#define RADZIECKI_LCD
+
 #define TMSLAB_WIN
+
 class R_P_LCD_TMSLAB
 {
 public:
@@ -27,4 +32,6 @@ private:
 long *g1[2];
 int g2[6];
 };
+
+#endif
 

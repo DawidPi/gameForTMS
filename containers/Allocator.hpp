@@ -5,17 +5,22 @@
  *      Author: dpilarsk
  */
 
+#include "../Logger/Logger.h"
+
 #ifndef SRC_CONTAINERS_ALLOCATOR_HPP_
 #define SRC_CONTAINERS_ALLOCATOR_HPP_
 
 template <typename T, size_t elements>
 class Allocator{
 public:
-	void* getRawSpace(){
-		return rawTab;
+	Allocator() : m_rawPointer(m_rawTab){LOG_INFO("");}
+	void*& getRawSpace(){
+		LOG_INFO("");
+		return m_rawPointer;
 	}
 private:
-	char rawTab[sizeof(T)*elements];
+	char m_rawTab[sizeof(T)*elements];
+	void* m_rawPointer;
 };
 
 

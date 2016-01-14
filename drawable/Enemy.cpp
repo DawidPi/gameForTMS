@@ -10,6 +10,7 @@
 namespace Graphics {
 
 Enemy::Enemy() {
+	LOG_INFO("");
 	bool enemyTmpShape[16][16]={
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -37,14 +38,17 @@ Enemy::Enemy() {
 }
 
 size_t Enemy::width() const{
+	LOG_INFO("");
 	return m_enemyGraphics.width();
 }
 
 size_t Enemy::height() const {
+	LOG_INFO("");
 	return m_enemyGraphics.height();
 }
 
 bool Enemy::at(Point2D<size_t> point) const{
+	LOG_INFO("");
 	return m_enemyGraphics[point.width()][point.height()];
 }
 

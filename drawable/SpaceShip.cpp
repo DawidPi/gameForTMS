@@ -10,6 +10,7 @@
 namespace Graphics {
 
 SpaceShip::SpaceShip() : m_spaceShipGraphics(static_cast<bool>(0)) {
+	LOG_INFO("");
 	bool spaceShipTmp[15][15] = {
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
@@ -36,14 +37,17 @@ SpaceShip::SpaceShip() : m_spaceShipGraphics(static_cast<bool>(0)) {
 }
 
 size_t SpaceShip::width() const{
+	LOG_INFO("");
 	return m_spaceShipGraphics.width();
 }
 
 size_t SpaceShip::height() const{
+	LOG_INFO("");
 	return m_spaceShipGraphics.height();
 }
 
 bool SpaceShip::at(Point2D<size_t> point) const{
+	LOG_INFO("");
 	return m_spaceShipGraphics[point.width()][point.height()];
 }
 

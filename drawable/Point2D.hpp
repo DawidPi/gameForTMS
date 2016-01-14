@@ -1,6 +1,8 @@
 #ifndef SRC_DRAWABLE_POINT2D_HPP_
 #define SRC_DRAWABLE_POINT2D_HPP_
 
+#include "../Logger/Logger.h"
+
 namespace Graphics{
 
 	template <typename T>
@@ -25,11 +27,13 @@ namespace Graphics{
 
 	template <typename T>
 	Point2D<T> Point2D<T>::operator-(const Point2D<T>& rhs) const{
+		LOG_INFO("");
 		return Point2D<T>(width()-rhs.width(), height()-rhs.height());
 	}
 
 	template <typename T>
 	const Point2D<T>& Point2D<T>::operator-=(const Point2D<T>& rhs){
+		LOG_INFO("");
 		setWidth(width() - rhs.width());
 		setHeight(height() - rhs.height());
 		return *this;
@@ -37,11 +41,13 @@ namespace Graphics{
 
 	template <typename T>
 	Point2D<T> Point2D<T>::operator+(const Point2D& rhs) const{
+		LOG_INFO("");
 		return Point2D<T>(width() + rhs.width(), height() + rhs.height());
 	}
 
 	template <typename T>
 	const Point2D<T>& Point2D<T>::operator+=(const Point2D& rhs){
+		LOG_INFO("");
 		setWidth(width + rhs.width());
 		setHeight(height() + rhs.height());
 		return *this;
@@ -49,6 +55,7 @@ namespace Graphics{
 
 	template <typename T>
 	bool Point2D<T>::operator ==(const Point2D<T>& rhs) const{
+		LOG_INFO("");
 		if(width() == rhs.width() && height() == rhs.height())
 			return true;
 

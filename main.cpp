@@ -8,9 +8,11 @@
 #include "drawable/Enemy.hpp"
 #include "drawable/EnemyGroup.hpp"
 #include "drawable/SimpleBullet.hpp"
+#include "game/SpaceShooter.hpp"
 #include <stdint.h>
 #include <numeric>
 #include <limits>
+#include "Logger/Logger.h"
 
 #ifdef TMSLAB_C2000
 #include "2812_header.h"
@@ -27,7 +29,7 @@ unsigned char *textEkran; //[40*16/2]
 #ifdef TMSLAB_WIN
 unsigned short int *textEkran; //[40*16/2]
 uint8_t *mySPtr = reinterpret_cast<uint8_t *>(ekran);
-extern int (*PartialRefresh)();
+//extern int (*PartialRefresh)();
 char credits[43] = " PILARSKI & STROKA : PID";
 #endif
 
@@ -44,7 +46,7 @@ void clearScreen(){
 }
 
 int main() {
-	using namespace Graphics;
+  using namespace Graphics;
   R_P_LCD_TMSLAB LCD;
   R_P_KEYBOARD_TMSLAB KEYBOARD;
   R_P_LEDBAR_TMSLAB LEDBAR;
@@ -61,48 +63,15 @@ int main() {
 
   EnableInterrupts();
 
-  EnemyGroup enemy;
-  Enemy singleEnemy;
-  size_t enemyOffset=0;
-  bool   enemyOffsetIncrease=true;
+  LOG_INFO("Program started");
 
-  while (1) {
-	clearScreen();
-	Display display(ekran, 115, 240);
+  Display display(ekran, 115, 240);
+  Game::SpaceShooter theGame(KEYBOARD, LCD, LEDBAR, display);
 
-	if(enemyOffsetIncrease)
-		enemyOffset++;
-	else
-		enemyOffset--;
-
-	if(enemyOffset == 3*singleEnemy.width()-1)
-		enemyOffsetIncrease = false;
-	if(enemyOffset == 0)
-		enemyOffsetIncrease = true;
-
-	/*
-	if(KEYBOARD.CheckKey(4)){
-	  if(spaceShipOffset > 0)
-		  spaceShipOffset-= 2;
-	}
-	if(KEYBOARD.CheckKey(6)){
-		if(spaceShipOffset < display.width() - enemy.width()){
-		  spaceShipOffset+= 2;
-		}
-	} */
+  LOG_INFO("starting the game");
+  theGame.start();
 
 
-	SimpleBullet bullet;
-	display.draw(bullet, Graphics::Point2D<size_t>(50,50));
-	display.draw(enemy, Graphics::Point2D<size_t>(enemyOffset,display.height() - enemy.height()));
-
-    LCD.Synchronize();
-
-#ifdef TMSLAB_WIN
-    if (PartialRefresh())
-      return 0;
-#endif
-  }
 }
 
 #ifdef TMSLAB_C2000

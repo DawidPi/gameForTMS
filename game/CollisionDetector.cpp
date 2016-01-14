@@ -3,6 +3,7 @@
 namespace Game{
 
 bool CollisionDetector::hasCommonArea(const GameObject& firstObject, const GameObject& secondObject){
+	LOG_INFO("");
 	typedef Graphics::Point2D<size_t> Point;
 
 	const Point position1 = firstObject.position();

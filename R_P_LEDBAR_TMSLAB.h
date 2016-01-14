@@ -6,6 +6,9 @@
 /////     Politechnika £ódzka      ////
 ///////////////////////////////////////
 
+#ifndef RADZIECKI_LEDBAR
+#define RADZIECKI_LEDBAR
+
 class R_P_LEDBAR_TMSLAB
 {
 public:
@@ -17,3 +20,4 @@ int k;
 
 };
 
+#endif

@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <new>
 #include "Allocator.hpp"
+#include "../Logger/Logger.h"
 
 namespace Containers{
 
@@ -29,55 +30,63 @@ namespace Containers{
 		union Data{
 		T rawContainer[_size];
 		} m_data; */
-		T(* m_tabT)[_size];
+		T(& m_tabT)[_size];
 	};
 
 	template <typename T, size_t _size>
 	template <typename U>
 	void Array1D<T, _size>::destroy(U elementToDestroy){
+		LOG_INFO("");
 		elementToDestroy.~U();
 	}
 
 	template <typename T, size_t _size>
 	template <typename U>
-	void Array1D<T, _size>::destroy(U *){}
+	void Array1D<T, _size>::destroy(U *){LOG_INFO("");}
 
 	template <typename T, size_t _size>
-	Array1D<T, _size>::Array1D(const T& initialValues): m_tabT(static_cast<T(*)[_size]>(m_spaceForT.getRawSpace())){
+	Array1D<T, _size>::Array1D(const T& initialValues): m_tabT(reinterpret_cast<T(&)[_size]>(m_spaceForT.getRawSpace())){
+		LOG_INFO("");
 		for(size_t currentOffset=0; currentOffset < _size; ++currentOffset){
+			LOG_INFO("creating element: " << currentOffset);
 			new(m_tabT + currentOffset) T(initialValues);
 		}
 	}
 
 	template <typename T, size_t _size>
 	Array1D<T, _size>::~Array1D(){
+		LOG_INFO("");
 		for(size_t currentOffset=0; currentOffset < _size; ++currentOffset){
-			destroy((*m_tabT)[currentOffset]);
+			destroy((m_tabT)[currentOffset]);
 		}
 	}
 
 	template <typename T, size_t _size>
 	Array1D<T, _size>::Array1D(const Array1D& rhs) : m_tabT(rhs.m_tabT),
-		m_spaceForT(rhs.m_spaceForT){}
+		m_spaceForT(rhs.m_spaceForT){LOG_INFO("");}
 
 	template <typename T, size_t _size>
 	T& Array1D<T, _size>::at(size_t offset){
-		return (*m_tabT)[offset];
+		LOG_INFO("");
+		return (m_tabT)[offset];
 	}
 
 	template <typename T, size_t _size>
 	const T& Array1D<T, _size>::at(size_t offset) const{
-		return (*m_tabT)[offset];
+		LOG_INFO("");
+		return (m_tabT)[offset];
 	}
 
 	template <typename T, size_t _size>
 	T& Array1D<T, _size>::operator[](size_t offset){
-		return (*m_tabT)[offset];
+		LOG_INFO("");
+		return (m_tabT)[offset];
 	}
 
 	template <typename T, size_t _size>
 	const T& Array1D<T, _size>::operator[](size_t offset) const {
-		return (*m_tabT)[offset];
+		LOG_INFO("");
+		return (m_tabT)[offset];
 	}
 }
 

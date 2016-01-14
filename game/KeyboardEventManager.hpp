@@ -15,6 +15,7 @@ public:
 
 template <size_t sizeOfContainer>
 void KeyboardEventManager::detectAndPropagate(R_P_KEYBOARD_TMSLAB& keyboard,Containers::Array1D<GameObject*, sizeOfContainer>& objects){
+	LOG_INFO("");
 	Containers::Array1D<bool, 10> keysPressed(false);
 
 	for(size_t currentObject=0; currentObject < sizeOfContainer ; ++currentObject){
