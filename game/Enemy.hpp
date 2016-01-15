@@ -27,7 +27,7 @@ private:
 	enum Direction{LEFT, RIGHT};
 	void moveRight();
 	void moveLeft();
-	Graphics::Enemy m_enemyGraphics;
+	static const Graphics::Enemy m_enemyGraphics;
 	Direction m_moveDirection;
 	int m_movedSteps;
 };

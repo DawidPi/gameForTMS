@@ -3,9 +3,13 @@
 
 namespace Game {
 
+const Graphics::Enemy Enemy::m_enemyGraphics;
+
 Enemy::Enemy(GameObjectsManager* parent, Graphics::Point2D<size_t> startPoint) :
 	GameObject(parent), m_moveDirection(RIGHT), m_movedSteps(0){
 	LOG_INFO("");
+	if(parent)
+		parent->registerEnemy(this);
 	position().setHeight(startPoint.height());
 	position().setWidth(startPoint.width());
 }

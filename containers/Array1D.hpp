@@ -13,7 +13,6 @@ namespace Containers{
 	class Array1D{
 	public:
 		Array1D(const T& initialValues = T());
-		Array1D(const Array1D& rhs);
 		T& at(size_t offset);
 		const T& at(size_t offset) const;
 		T& operator[](size_t offset);
@@ -21,75 +20,82 @@ namespace Containers{
 		size_t size(){return _size;}
 		~Array1D();
 	private:
-		Allocator<T, _size> m_spaceForT;
 		template <typename U>
 		void destroy(U);
 		template <typename U>
 		void destroy(U*);
-		/* unrestricted unions only in C++11
 		union Data{
-		T rawContainer[_size];
-		} m_data; */
-		T(& m_tabT)[_size];
+			Data(){}
+			Data(const Data& rhs){
+				for(size_t idx=0; idx < _size; ++idx)
+					rawContainer[idx] = rhs.rawContainer[idx];
+			}
+			~Data(){}
+			T rawContainer[_size];
+		}m_data;
 	};
 
 	template <typename T, size_t _size>
 	template <typename U>
 	void Array1D<T, _size>::destroy(U elementToDestroy){
-		LOG_INFO("");
+		LOG_DETAILED("");
 		elementToDestroy.~U();
 	}
 
 	template <typename T, size_t _size>
 	template <typename U>
-	void Array1D<T, _size>::destroy(U *){LOG_INFO("");}
+	void Array1D<T, _size>::destroy(U *){LOG_DETAILED("");}
 
 	template <typename T, size_t _size>
-	Array1D<T, _size>::Array1D(const T& initialValues): m_tabT(reinterpret_cast<T(&)[_size]>(m_spaceForT.getRawSpace())){
-		LOG_INFO("");
+	Array1D<T, _size>::Array1D(const T& initialValues){
+		LOG_DETAILED("");
 		for(size_t currentOffset=0; currentOffset < _size; ++currentOffset){
-			LOG_INFO("creating element: " << currentOffset);
-			new(m_tabT + currentOffset) T(initialValues);
+			LOG_DETAILED("creating element: " << currentOffset);
+			new(m_data.rawContainer + currentOffset) T(initialValues);
 		}
 	}
 
 	template <typename T, size_t _size>
 	Array1D<T, _size>::~Array1D(){
-		LOG_INFO("");
+		LOG_DETAILED("");
 		for(size_t currentOffset=0; currentOffset < _size; ++currentOffset){
-			destroy((m_tabT)[currentOffset]);
+			destroy(m_data.rawContainer[currentOffset]);
 		}
 	}
 
 	template <typename T, size_t _size>
-	Array1D<T, _size>::Array1D(const Array1D& rhs) : m_tabT(rhs.m_tabT),
-		m_spaceForT(rhs.m_spaceForT){LOG_INFO("");}
-
-	template <typename T, size_t _size>
 	T& Array1D<T, _size>::at(size_t offset){
-		LOG_INFO("");
-		return (m_tabT)[offset];
+		LOG_DETAILED("offset = " << offset);
+		if(offset >= _size)
+			LOG_ERROR("Out of bounds: " << offset << "/" << _size );
+		return m_data.rawContainer[offset];
 	}
 
 	template <typename T, size_t _size>
 	const T& Array1D<T, _size>::at(size_t offset) const{
-		LOG_INFO("");
-		return (m_tabT)[offset];
+		LOG_DETAILED("offset = " << offset);
+		if(offset >= _size)
+			LOG_ERROR("Out of bounds: " << offset << "/" << _size );
+		return m_data.rawContainer[offset];
 	}
 
 	template <typename T, size_t _size>
 	T& Array1D<T, _size>::operator[](size_t offset){
-		LOG_INFO("");
-		return (m_tabT)[offset];
+		LOG_DETAILED("offset = " << offset);
+		if(offset >= _size)
+			LOG_ERROR("Out of bounds: " << offset << "/" << _size );
+		return m_data.rawContainer[offset];
 	}
 
 	template <typename T, size_t _size>
 	const T& Array1D<T, _size>::operator[](size_t offset) const {
-		LOG_INFO("");
-		return (m_tabT)[offset];
+		LOG_DETAILED("offset = " << offset);
+		if(offset >= _size)
+			LOG_ERROR("Out of bounds: " << offset << "/" << _size );
+		return m_data.rawContainer[offset];
 	}
 }
 
-#include "Array1DBool.hpp"
+//#include "Array1DBool.hpp"
 
 #endif /* SRC_CONTAINERS_ARRAY1D_HPP_ */

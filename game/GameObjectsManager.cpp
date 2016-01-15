@@ -21,7 +21,7 @@ namespace Game {
 
 		for(size_t currentObjectIdx=0; currentObjectIdx < m_allObjects.size();
 				++currentObjectIdx){
-			if(m_allObjects[currentObjectIdx] == static_cast<void*>(0))
+			if(static_cast<void*>(0) == m_allObjects[currentObjectIdx] )
 				continue;
 
 			LOG_INFO("Element ") << currentObjectIdx << " detected" << Logger::flush;
@@ -30,7 +30,7 @@ namespace Game {
 	}
 
 	bool GameObjectsManager::registerEnemy(GameObject* enemy){
-		LOG_INFO("");
+		LOG_INFO("Enemy registered");
 		bool result = true;
 		result &= registerObject(enemy);
 		result &= insert(enemy, m_enemies);
@@ -52,12 +52,18 @@ namespace Game {
 	}
 
 	bool GameObjectsManager::registerShip(GameObject* spaceShip){
-		LOG_INFO("");
-		if(0 == m_registeredShip)
+		LOG_INFO("Ship register");
+		if(0 == m_registeredShip){
+			LOG_ERROR("Ship register failed - null Ship");
 			return false;
+		}
 
 		m_registeredShip = spaceShip;
 		bool successful = registerObject(spaceShip);
+
+		if(!successful)
+			LOG_ERROR("Ship register failed");
+
 		return successful;
 	}
 
@@ -103,7 +109,7 @@ namespace Game {
 		}
 	}
 
-	Containers::Array1D<GameObject*, 25>& GameObjectsManager::getEnemies(){
+	Containers::Array1D<GameObject*, 22>& GameObjectsManager::getEnemies(){
 		LOG_INFO("");
 		return m_enemies;
 	}

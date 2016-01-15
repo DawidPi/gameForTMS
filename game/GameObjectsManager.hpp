@@ -19,7 +19,7 @@ public:
 	void deleteBullet(GameObject* bullet);
 	void deleteShip(GameObject* spaceShip);
 
-	Containers::Array1D<GameObject*, 25>& getEnemies();
+	Containers::Array1D<GameObject*, 22>& getEnemies();
 	Containers::Array1D<GameObject*, 10>& getBullets();
 	Containers::Array1D<GameObject*, 36>& getAllObjects();
 	GameObject* getSpaceShip();
@@ -34,7 +34,7 @@ private:
 	GameObject* m_registeredShip;
 	Containers::Array1D<GameObject*, 36> m_allObjects;
 	Containers::Array1D<GameObject*, 10> m_bullets;
-	Containers::Array1D<GameObject*, 25> m_enemies;
+	Containers::Array1D<GameObject*, 22> m_enemies;
 	Display& m_display;
 };
 

@@ -23,15 +23,14 @@ bool Display::setPixel(size_t x, size_t y) {
 }
 
 bool Display::pixelInRange(size_t x, size_t y) {
-	LOG_INFO("");
   if (x < m_width && y < m_height)
     return true;
 
+  LOG_ERROR("Pixel out of range: x=" << x << " y=" << y);
   return false;
 }
 
 void Display::drawFrame() {
-	LOG_INFO("");
   for (size_t currentWidth = 0; currentWidth < m_width; ++currentWidth) {
     for (size_t currentHeight = 0; currentHeight < m_height; ++currentHeight) {
       if (currentWidth == 0 || currentWidth == m_width - 1 ||

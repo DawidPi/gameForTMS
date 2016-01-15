@@ -2,6 +2,8 @@
 #ifndef SRC_CONTAINERS_ARRAY1DBOOL_HPP_
 #define SRC_CONTAINERS_ARRAY1DBOOL_HPP_
 
+#include "../Logger/Logger.h"
+
 namespace Containers{
 
 	template <size_t _size>
@@ -34,7 +36,7 @@ namespace Containers{
 
 	template<size_t _size>
 	Array1D<bool, _size>::Array1D(bool initialValues){
-		LOG_INFO("");
+		LOG_DETAILED("");
 		for(size_t currentIdx=0; currentIdx<(_size/16+1); ++currentIdx){
 			m_rawContainer[currentIdx] = initialValues ? 0xFFFF : 0x0000;
 		}
@@ -42,13 +44,13 @@ namespace Containers{
 
 	template<size_t _size>
 	typename Array1D<bool, _size>::BoolProxy Array1D<bool, _size>::at(size_t offset){
-		LOG_INFO("");
+		LOG_DETAILED("");
 		return BoolProxy(offset, m_rawContainer);
 	}
 
 	template<size_t _size>
 	bool Array1D<bool, _size>::at(size_t offset) const{
-		LOG_INFO("");
+		LOG_DETAILED("");
 		size_t containerOffset = offset/_size;
 		size_t containerOffsetMod = offset%_size;
 		return m_rawContainer[containerOffset] & (1<<containerOffsetMod);
@@ -56,13 +58,13 @@ namespace Containers{
 
 	template<size_t _size>
 	typename Array1D<bool, _size>::BoolProxy Array1D<bool, _size>::operator[](size_t offset){
-		LOG_INFO("");
+		LOG_DETAILED("");
 		return BoolProxy(offset, m_rawContainer);
 	}
 
 	template<size_t _size>
 	bool Array1D<bool, _size>::operator[](size_t offset) const{
-		LOG_INFO("");
+		LOG_DETAILED("");
 		size_t containerOffset = offset/_size;
 		size_t containerOffsetMod = offset%_size;
 		return m_rawContainer[containerOffset] & (1<<containerOffsetMod);
@@ -70,7 +72,7 @@ namespace Containers{
 
 	template<size_t _size>
 	Array1D<bool, _size>::BoolProxy::operator bool() const {
-		LOG_INFO("");
+		LOG_DETAILED("");
 		size_t containerOffset = m_offset/_size;
 		size_t containerOffsetMod = m_offset%_size;
 		return m_rawContainer[containerOffset] & (1<<containerOffsetMod);
@@ -78,7 +80,7 @@ namespace Containers{
 
 	template <size_t _size>
 	void Array1D<bool, _size>::BoolProxy::operator=(bool newValue){
-		LOG_INFO("");
+		LOG_DETAILED("");
 		size_t containerOffset = m_offset/_size;
 		size_t containerOffsetMod = m_offset%_size;
 		if(newValue)

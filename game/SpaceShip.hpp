@@ -6,6 +6,7 @@
 #include "../drawable/Point2D.hpp"
 #include "../display/display.hpp"
 #include "GameObject.hpp"
+#include "Bullet.hpp"
 
 namespace Game {
 
@@ -22,7 +23,10 @@ public:
 private:
 	void moveLeft();
 	void moveRight();
-	Graphics::SpaceShip m_spaceShipShape;
+
+	void createBullet();
+	Bullet m_bullet;
+	static const Graphics::SpaceShip m_spaceShipShape;
 };
 
 } /* namespace Game */

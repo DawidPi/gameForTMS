@@ -21,7 +21,7 @@ public:
 
 	void start();
 private:
-	void initEnemies(Containers::Array2D<Enemy, 6,2>&, GameObjectsManager& manager);
+	void initEnemies(Containers::Array2D<Enemy, 11,2>&, GameObjectsManager& manager);
 	template <size_t sizeOfContainer>
 	void drawObjectsFromContainer(const Containers::Array1D<GameObject*, sizeOfContainer>&);
 	R_P_KEYBOARD_TMSLAB& m_keyboard;
